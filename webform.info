@@ -39,3 +39,7 @@ files[] = tests/conditionals.test
 files[] = tests/permissions.test
 files[] = tests/submission.test
 files[] = tests/webform.test
+
+version = "7.x-4.14-pum-1"
+core = "7.x"
+project = "webform"
