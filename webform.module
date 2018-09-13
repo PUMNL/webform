@@ -1393,6 +1393,12 @@ function webform_file_download($uri) {
     // under our enforced directory prefix are in fact webform files, and so
     // we deny access to the file. Abandoned uploads will be deleted by
     // system_cron() in due course.
+    if (function_exists('webform_multifile_file_download')) {
+      if (webform_multifile_file_download($uri) === -1) {
+        return -1;
+      }
+      return;
+    }
     return -1;
   }
 }
