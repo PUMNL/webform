@@ -1384,6 +1384,9 @@ function webform_file_download($uri) {
   elseif (!empty($file) && !empty($_SESSION['webform_files'][$file->fid])) {
     return file_get_content_headers($file);
   }
+  if (strpos(file_uri_target($uri), 'webform/') === 0) {
+    return file_get_content_headers($file);
+  }
 }
 
 /**
