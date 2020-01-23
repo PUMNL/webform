@@ -758,7 +758,7 @@ function webform_conditional_element_add($form, &$form_state) {
                     );
 
   if (empty($button['#subconditional'])) {
-    $new[0] = $parent_values[$rid]['source_type'] == 'component' ? $parent_values[$rid] : $default_rule;
+    $new[0] = (isset($parent_values[$rid]['source_type']) && $parent_values[$rid]['source_type'] == 'component') ? $parent_values[$rid] : $default_rule;
   }
   else {
     // The default andor operator is opposite of current subconditional's
@@ -1341,6 +1341,7 @@ function webform_conditional_load($rgid, $nid) {
  * Insert a conditional rule group into the database.
  */
 function webform_conditional_insert($conditional) {
+  $transaction = db_transaction();
   drupal_write_record('webform_conditional', $conditional);
   foreach ($conditional['rules'] as $rid => $rule) {
     $rule['nid'] = $conditional['nid'];
@@ -1360,6 +1361,7 @@ function webform_conditional_insert($conditional) {
  * Update a conditional setting in the database.
  */
 function webform_conditional_update($node, $conditional) {
+  $transaction = db_transaction();
   webform_conditional_delete($node, $conditional);
   webform_conditional_insert($conditional);
 }
@@ -1368,6 +1370,7 @@ function webform_conditional_update($node, $conditional) {
  * Delete a conditional rule group.
  */
 function webform_conditional_delete($node, $conditional) {
+  $transaction = db_transaction();
   db_delete('webform_conditional')
     ->condition('nid', $node->nid)
     ->condition('rgid', $conditional['rgid'])
